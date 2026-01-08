@@ -41,21 +41,87 @@ To start the simulator:
 3. FULL SYSTEM STRESS TEST (STEP-BY-STEP)
 Follow these commands to test every feature created:
 
->init 1024
->init_vm 5
->init_cache 4 8
->set allocator buddy
->malloc 70 (Verify rounding to 128)
->v_access 0 (Verify Page Fault/L1 Miss)
->v_access 0 (Verify L1 Hit)
->v_access 64, v_access 128, v_access 192, v_access 256 (Verify FIFO Eviction of Page 0)
->free 1
->dump (Verify coalescing)
->report (Verify final statistics)
+PART 1: ALLOCATION STRATEGY COMPARISON
+(First Fit / Best Fit / Worst Fit)
+--------------------------------
+
+
+cd memory-simulator
+g++ main.cpp src/allocator.cpp src/cache.cpp src/virtual_memory.cpp -Iinclude -o main
+
+# First Fit
+init 1024
+set allocator first_fit
+malloc 100
+malloc 200
+dump
+stats
+
+
+
+
+--------------------------------
+PART 2: ALLOCATION FAILURE CASE
+
+
+init 256
+set allocator first_fit
+malloc 200
+malloc 100
+# Expected: Error: No space found.
+
+
+--------------------------------
+PART 3: DEALLOCATION + COALESCING
+
+
+init 512
+set allocator first_fit
+malloc 100
+malloc 150
+free 1
+dump
+stats
+
+--------------------------------
+PART 4: BUDDY ALLOCATION SYSTEM
+
+
+init 1024
+set allocator buddy
+malloc 70
+dump
+stats
+
+
+
+--------------------------------
+PART 5: VIRTUAL MEMORY + CACHE INTEGRATION
+
+
+init_vm 8
+init_cache 4 16 8 32
+
+v_access 0
+v_access 0
+v_access 64
+v_access 128
+v_access 192
+v_access 256
+v_access 320
+
+report
+
+
+--------------------------------
+PART 6: EXIT
+
+exit
 
 5. POLICIES USED
 * Cache: Uses Direct-Mapping for placement.
 * Page Replacement: Uses the FIFO (First-In, First-Out) rule. When RAM is full, the oldest page is evicted to make room for the new one.
 
 Thank you!
+
 

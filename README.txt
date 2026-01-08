@@ -1,5 +1,9 @@
 
 MEMORY MANAGEMENT SIMULATOR - PROJECT README
+Demo vedio - https://drive.google.com/file/d/1jgiV85wjgOxPEug_zdP9G-uU-5uItJvy/view?usp=sharing
+(Due to health constraints, I was unable to re-record the demo. To meet the time requirement, the video has been speed-adjusted.I kindly request consideration for the demo duration of approximately 4 minutes please but it covers all the required features.)
+
+
 
 
 1. PROJECT OVERVIEW
@@ -54,3 +58,4 @@ Follow these commands to test every feature created:
 * Page Replacement: Uses the FIFO (First-In, First-Out) rule. When RAM is full, the oldest page is evicted to make room for the new one.
 
 Thank you!
+
